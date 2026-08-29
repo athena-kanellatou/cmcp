@@ -911,15 +911,15 @@ def verify_trace_claim(
         else:
             try:
                 enforcement_mode_raw = agent_identity.get("enforcement_mode")
-                try: 
+        try: 
                 claimed_enforcement_mode = (
                     EnforcementMode(enforcement_mode_raw)
                     if enforcement_mode_raw is not None
                     else None
                 )
-                except ValueError as exc:
+        except ValueError as exc:
                    raise ConfigError(str(exc)) from exc
-                binding = verify_agent_manifest_binding(
+        binding = verify_agent_manifest_binding(
                     agent_manifest,
                     trusted_agent_manifest_keys,
                     authenticated_subject=agent_identity.get("authenticated_subject"),
