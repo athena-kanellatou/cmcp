@@ -911,12 +911,15 @@ def verify_trace_claim(
         else:
             try:
                 enforcement_mode_raw = agent_identity.get("enforcement_mode")
+                try: 
                 claimed_enforcement_mode = (
                     EnforcementMode(enforcement_mode_raw)
                     if enforcement_mode_raw is not None
                     else None
                 )
-                binding = verify_agent_manifest_binding(
+               except ValueError as exc:
+                   raise ConfigError(str(exc)) from exc
+                binding = verify_agent_manifest_binding
                     agent_manifest,
                     trusted_agent_manifest_keys,
                     authenticated_subject=agent_identity.get("authenticated_subject"),
@@ -953,7 +956,7 @@ def verify_trace_claim(
                     )
                 else:
                     verified.append("agent_manifest.binding")
-            except (ConfigError, ValueError) as exc:
+            except ConfigError as exc:
                 unverified.append("agent_manifest.binding")
                 failure = failure or VerificationError.AGENT_MANIFEST_MISMATCH
                 details["agent_manifest"] = str(exc)
