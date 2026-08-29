@@ -917,9 +917,9 @@ def verify_trace_claim(
                     if enforcement_mode_raw is not None
                     else None
                 )
-               except ValueError as exc:
+                except ValueError as exc:
                    raise ConfigError(str(exc)) from exc
-                binding = verify_agent_manifest_binding
+                binding = verify_agent_manifest_binding(
                     agent_manifest,
                     trusted_agent_manifest_keys,
                     authenticated_subject=agent_identity.get("authenticated_subject"),
